@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html ng-app="app">
+<head>
+  <meta charset="utf-8" />
+  <title>$scope sharing between iframe</title>
+  <style>
+  [ng-cloak] {
+    display: none;
+  }
+  </style>
+</head>
+<body>
+
+  <div ui-view>Loading application, please wait ...</div>
+
+  <!-- 
+    iframe will not be shown until the MainController has been call
+    iframe has to be outside of MainController so we place it in rootScope, (it could be better if we use more $state, and inject it after the MainController ran)
+    iframe need to relies on rootScope, so once the app has been initialized, iframe src will be updateed, this to prevent iframe early loaded before the main app
+  -->
+  <iframe ng-src="{{ iframeSrc }}" ng-cloak ng-show="iframeShow" style="height: 100px;margin-top: 1em" ></iframe>
+
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="src/app.js"></script>
+
+</body>
+</html>
+

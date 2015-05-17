@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html ng-app="iframeApp">
+<head>
+  <meta charset="utf-8" />
+  <title>$scope sharing between iframe</title>
+  <style>
+  [ng-cloak] {
+    display: none;
+  }
+  </style>
+</head>
+<body>
+
+  <div ng-controller="MainController" ng-cloak>{{ userInput }}</div>
+
+  <script src="bower_components/angular/angular.js"></script>
+
+  <script>
+  var app = angular.module('iframeApp', []);
+
+  app.factory('parentEl', ['$window', function($window) {
+    var el = $window.parent.document.querySelector('.ng-scope'),
+        ng = $window.parent.angular;
+  
+    return ng.element(el);
+  }]);
+
+  app.controller('MainController', function($scope, parentEl) {
+    var $p = parentEl.injector().get('iframeReadySignal');
+
+    $p.resolve($scope);
+  });
+  </script>
+
+</body>
+</html>
+
+
